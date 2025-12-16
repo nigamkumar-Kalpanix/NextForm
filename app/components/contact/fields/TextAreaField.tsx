@@ -1,23 +1,27 @@
 "use client";
 
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
-
 type TextAreaFieldProps = {
   label: string;
   placeholder?: string;
   required?: boolean;
-  registration: UseFormRegisterReturn;
-  error?: FieldError;
   rows?: number;
+  name?: string;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+  errorMessage?: string;
 };
 
 export default function TextAreaField({
   label,
   placeholder,
   required,
-  registration,
-  error,
   rows = 5,
+  name,
+  value,
+  onChange,
+  onBlur,
+  errorMessage,
 }: TextAreaFieldProps) {
   return (
     <div className="space-y-1">
@@ -25,12 +29,17 @@ export default function TextAreaField({
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <textarea
+        name={name}
         rows={rows}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
         placeholder={placeholder}
         className="w-full rounded border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#8E7571]"
-        {...registration}
       />
-      {error && <p className="text-xs text-red-600">{error.message}</p>}
+      {errorMessage && (
+        <p className="text-xs text-red-600">{errorMessage}</p>
+      )}
     </div>
   );
 }

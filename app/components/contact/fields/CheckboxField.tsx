@@ -1,25 +1,34 @@
 "use client";
 
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
-
 type CheckboxFieldProps = {
   label: string;
-  registration: UseFormRegisterReturn;
-  error?: FieldError;
+  name?: string;
+  checked?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  errorMessage?: string;
 };
 
 export default function CheckboxField({
   label,
-  registration,
-  error,
+  name,
+  checked,
+  onChange,
+  errorMessage,
 }: CheckboxFieldProps) {
   return (
     <div className="space-y-1">
       <label className="flex items-center gap-2 text-sm text-gray-800">
-        <input type="checkbox" {...registration} />
+        <input
+          type="checkbox"
+          name={name}
+          checked={!!checked}
+          onChange={onChange}
+        />
         <span>{label}</span>
       </label>
-      {error && <p className="text-xs text-red-600">{error.message}</p>}
+      {errorMessage && (
+        <p className="text-xs text-red-600">{errorMessage}</p>
+      )}
     </div>
   );
 }

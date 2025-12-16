@@ -1,24 +1,23 @@
 "use client";
 
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
-
-type RadioOption = {
-  value: string;
-  label: string;
-};
+type RadioOption = { value: string; label: string };
 
 type RadioGroupFieldProps = {
   label: string;
-  registration: UseFormRegisterReturn;
-  error?: FieldError;
+  name?: string;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   options: RadioOption[];
+  errorMessage?: string;
 };
 
 export default function RadioGroupField({
   label,
-  registration,
-  error,
+  name,
+  value,
+  onChange,
   options,
+  errorMessage,
 }: RadioGroupFieldProps) {
   return (
     <div className="space-y-1">
@@ -26,12 +25,20 @@ export default function RadioGroupField({
       <div className="flex flex-wrap gap-4 text-sm text-gray-800">
         {options.map((opt) => (
           <label key={opt.value} className="flex items-center gap-2">
-            <input type="radio" value={opt.value} {...registration} />
+            <input
+              type="radio"
+              name={name}
+              value={opt.value}
+              checked={value === opt.value}
+              onChange={onChange}
+            />
             <span>{opt.label}</span>
           </label>
         ))}
       </div>
-      {error && <p className="text-xs text-red-600">{error.message}</p>}
+      {errorMessage && (
+        <p className="text-xs text-red-600">{errorMessage}</p>
+      )}
     </div>
   );
 }
